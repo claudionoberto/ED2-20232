@@ -25,3 +25,13 @@ help:
 	@echo "help		| ajuda"
 	@echo "ela		| executar mensagem de texto"
 	@echo "clean| apagar codigos compilados"
+
+lista:
+	@echo "=================================="
+	@echo "Executando lista simplesmente ligada"
+	@echo "=================================="
+	@echo "Compilando LinkedList"
+	gcc LinkedList.c LinkedList.h -o lista
+	chmod +x lista
+	./lista
+	@echo "=================================="

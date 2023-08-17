@@ -20,13 +20,13 @@ int enqueue(LinkedList *list, void *data) {
     newNode->data = data;
     newNode->next = NULL;
 
-    if (isEmpty(list))            //se a lista estiver vazia
-        list->first = newNode;    //novo nó é o primeiro
+    if (isEmpty(list))            
+        list->first = newNode;    
     else {
-        Node *aux = list->first;  //aux aponta para o primeiro
-        while (aux->next != NULL) //enquanto não for o último nó
-            aux = aux->next;      //aux avança para o nó seguinte
-        aux->next = newNode;      //último nó aponta para o novo nó
+        Node *aux = list->first;  
+        while (aux->next != NULL) 
+            aux = aux->next;      
+        aux->next = newNode;   
     }
 
     list->size++;
@@ -52,11 +52,11 @@ void* first(LinkedList *list) {
 
 void* last(LinkedList *list) {
     void *data = NULL;
-    if (!isEmpty(list)) {          //Se a lista não estiver vazia
-        Node *aux = list->first;   //aux aponta para o primeiro nó
-        while (aux->next != NULL)  //enquanto não for o último nó
-            aux = aux->next;       //aux avança para o nó seguinte
-        data = aux->data;          //endereço de memória do dado no último nó
+    if (!isEmpty(list)) {          
+        Node *aux = list->first;   
+        while (aux->next != NULL)  
+            aux = aux->next;       
+        data = aux->data;          
     }
     return data;
 }
@@ -67,11 +67,11 @@ int push(LinkedList *list, void *data) {
     newNode->data = data;
     newNode->next = NULL;
 
-    if (isEmpty(list))               //se a lista estiver vazia
-        list->first = newNode;       //novo nó é o primeiro
+    if (isEmpty(list))               
+        list->first = newNode;       
     else {
-        newNode->next = list->first; //o topo atual será o segundo da lista
-        list->first = newNode;       //o novo nó será o topo
+        newNode->next = list->first; 
+        list->first = newNode;       
     }
 
     list->size++;
@@ -208,5 +208,3 @@ bool removeData(LinkedList *list, void *data, compare equal) {
         }
     }
 }
-
-
