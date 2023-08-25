@@ -1,10 +1,3 @@
-//
-//  LinkedList.c
-//  lista_simplesmente_ligada
-//
-//  Created by Claudio Noberto on 16/08/23.
-//
-
 #ifndef DataStructure_LinkedList_h
 #define DataStructure_LinkedList_h
 #include <stdbool.h>

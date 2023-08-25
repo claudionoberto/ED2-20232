@@ -31,7 +31,31 @@ lista:
 	@echo "Executando lista simplesmente ligada"
 	@echo "=================================="
 	@echo "Compilando LinkedList"
-	gcc LinkedList.c LinkedList.h -o lista
+	gcc LinkedList.c LinkedList.h LinkedListTeste.c -o lista
 	chmod +x lista
 	./lista
 	@echo "=================================="
+
+olamundo:
+	@echo "=================================="
+	@echo "Executando olamundo"
+	@echo "=================================="
+	@echo "Compilando olamundo"
+	gcc olamundo.c -o olamundo
+	chmod +x olamundo
+	./olamundo
+	@echo "=================================="
+
+dlinkedlist:
+	@echo
+	@echo ==========================
+	@echo      LISTA DUPLA
+	@echo ==========================
+	@echo Compilando o programa dlinkedlist
+	@gcc --std=c99 -DLOG_USE_COLOR DoublyLinkedList.h DoublyLinkedList.c DoublyLinkedListTeste.c -o dlinkedlist
+	@echo Tornando o arquivo executável
+	@chmod +x dlinkedlist
+	@echo Executando o programa dlinkedlist
+	@echo ======================================================
+	@echo
+	@./dlinkedlist

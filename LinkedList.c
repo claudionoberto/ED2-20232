@@ -1,10 +1,3 @@
-//
-//  main.c
-//  lista_simplesmente_ligada
-//
-//  Created by Claudio Noberto on 16/08/23.
-//
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "LinkedList.h"
