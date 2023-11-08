@@ -25,6 +25,16 @@ int hash(char *key) {
     return sum%MAX; //retorna o resto da divisão
 }
 
+int hash2(char *key) {
+    int sum = 0;
+    // percorremos todos os caracteres da string passada
+    for (int i = 0; key[i]!=0;i++) {
+        //acumulamos os códigos ascii de cada letra com um peso
+        sum+=key[i]*(i+10);
+    }
+    return sum%MAX; //retorna o resto da divisão
+}
+
 int put(HashStruct *hashStruct, char *key, void *data, compare equal) {
     if (!containsKey(hashStruct, key, equal)) {
         //adiciona na fila que está na posição devolvida pela função hash
@@ -36,9 +46,28 @@ int put(HashStruct *hashStruct, char *key, void *data, compare equal) {
     return 0;
 }
 
+int put2(HashStruct *hashStruct, char *key, void *data, compare equal) {
+    if (!containsKey(hashStruct, key, equal)) {
+        //adiciona na fila que está na posição devolvida pela função hash
+        int res = enqueue(&hashStruct->hashes[hash2(key)],data);
+        //incrementa a qtde de elementos baseado na quantidade inserida por enqueue
+        hashStruct->size+=res;
+        return res;
+    }
+    return 0;
+}
+
 bool containsKey(HashStruct *hashStruct, char *key, compare equal) {
     //calcula a posição
     int hashValue = hash(key);
+    //busca na fila a posição da chave
+    int pos = indexOf(&hashStruct->hashes[hashValue], key, equal);
+    return (pos!=-1)?true:false;
+}
+
+bool containsKey2(HashStruct *hashStruct, char *key, compare equal) {
+    //calcula a posição
+    int hashValue = hash2(key);
     //busca na fila a posição da chave
     int pos = indexOf(&hashStruct->hashes[hashValue], key, equal);
     return (pos!=-1)?true:false;

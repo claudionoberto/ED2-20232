@@ -19,7 +19,36 @@ void printHash(void *data) {
 }
 
 int main() {
-    HashStruct hashes;
+    HashStruct hashe, hashe2;
+
+    FILE *arquivoHashe;
+    char *textoHashe;
+    arquivoHashe = fopen ("Palavras.txt","r");
+    initHash(&hashe);
+    if (arquivoHashe != NULL) {
+        textoHashe = (char*)malloc(sizeof(char)*100);
+        while (fscanf(arquivoHashe,"%s \n",textoHashe) !=EOF) {
+            put(&hashe,textoHashe,textoHashe,comparar);
+            textoHashe = (char*)malloc(sizeof(char)*100);
+        }
+    }
+    fclose(arquivoHashe);
+
+    FILE *arquivoHashe2;
+    char *textoHashe2;
+    arquivoHashe2 = fopen ("Palavras.txt","r");
+    initHash(&hashe2);
+    if (arquivoHashe2 != NULL) {
+        textoHashe2 = (char*)malloc(sizeof(char)*100);
+        while (fscanf(arquivoHashe2,"%s \n",textoHashe2) !=EOF) {
+            put(&hashe2,textoHashe2,textoHashe2,comparar);
+            textoHashe2 = (char*)malloc(sizeof(char)*100);
+        }
+    }
+    fclose(arquivoHashe2);
+
+
+
     initHash(&hashes);
     printf("%d\n",hash("joao.preti@cba.ifmt.edu.br"));
     Cliente *c = (Cliente *)malloc(sizeof(Cliente));
