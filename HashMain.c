@@ -41,7 +41,7 @@ void criarImagemPPM(const HashStruct *hashStruct, const char *filename) {
         for (int j = 0; j < 32; j++) {
             int density = hashStruct->hashes[i * 32 + j].size;
             int color = (int)((density / (double)densidadeMax) * 255);
-            fprintf(imageFile, "100 100 %d ", color);
+            fprintf(imageFile, "42 252 %d ", color);
         }
     }
 
