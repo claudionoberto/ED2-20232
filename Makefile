@@ -60,3 +60,14 @@ dlinkedlist:
 	@echo
 	@./dlinkedlist
 
+tabelaHash:
+	@echo "=================================="
+	@echo "         PROGRAMA HASH"
+	@echo "=================================="
+	@echo "- Compilando"
+	gcc  DoublyLinkedList.h DoublyLinkedList.c Hash.h Hash.c HashMain.c -o Hash
+	@echo "- Torna o programa Hash executásvel"
+	chmod +x Hash
+	@echo "- Executando o Hash"
+	./Hash
+	@echo "=================================="

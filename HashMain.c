@@ -18,6 +18,37 @@ void printHash(void *data) {
     }
 }
 
+void criarImagemPPM(const HashStruct *hashStruct, const char *filename) {
+    FILE *imageFile = fopen(filename, "w");
+
+    if (!imageFile) {
+        printf("Erro ao criar o arquivo de imagem PPM.\n");
+        return;
+    }
+
+    int densidadeMax = 0;
+
+    for (int i = 0; i < MAX; i++) {
+        int density = hashStruct->hashes[i].size;
+        densidadeMax = (density > densidadeMax) ? density : densidadeMax;
+    }
+
+    fprintf(imageFile, "P3\n");
+    fprintf(imageFile, "32 32\n");
+    fprintf(imageFile, "255\n");   
+
+    for (int i = 0; i < 32; i++) {
+        for (int j = 0; j < 32; j++) {
+            int density = hashStruct->hashes[i * 32 + j].size;
+            int color = (int)((density / (double)densidadeMax) * 255);
+            fprintf(imageFile, "100 100 %d ", color);
+        }
+    }
+
+    fclose(imageFile);
+    printf("Imagem PPM criada com sucesso: %s\n", filename);
+}
+
 int main() {
     HashStruct hashe, hashe2;
 
@@ -41,38 +72,14 @@ int main() {
     if (arquivoHashe2 != NULL) {
         textoHashe2 = (char*)malloc(sizeof(char)*100);
         while (fscanf(arquivoHashe2,"%s \n",textoHashe2) !=EOF) {
-            put(&hashe2,textoHashe2,textoHashe2,comparar);
+            put2(&hashe2,textoHashe2,textoHashe2,comparar);
             textoHashe2 = (char*)malloc(sizeof(char)*100);
         }
     }
     fclose(arquivoHashe2);
 
+    criarImagemPPM(&hashe, "TabelaHash1.ppm");
+    criarImagemPPM(&hashe2, "TabelaHash2.ppm");
 
-
-    initHash(&hashes);
-    printf("%d\n",hash("joao.preti@cba.ifmt.edu.br"));
-    Cliente *c = (Cliente *)malloc(sizeof(Cliente));
-    strcpy(c->nome,"Joao Paulo") ;
-    strcpy(c->email,"joao.preti@cba.ifmt.edu.br");
-    printf("%d\n",hash(c->email));
-    put(&hashes, c->email, c, comparaChaves);
-    printf("%d\n",hashes.hashes[hash("joao.preti@cba.ifmt.edu.br")].size);
-    printf("%d\n",hashes.size);
-    printf("%d\n",containsKey(&hashes, "joao.preti@cba.ifmt.edu.br", comparaChaves));
-    Cliente *cliente = (Cliente*)get(&hashes, "joao.preti@cba.ifmt.edu.br", comparaChaves);
-    printf("%s\n",cliente->nome);
-    c = (Cliente *)malloc(sizeof(Cliente));
-    strcpy(c->nome,"Maria") ;
-    strcpy(c->email,"maria@email.br");
-    put(&hashes, c->email, c, comparaChaves);
-    c = (Cliente *)malloc(sizeof(Cliente));
-    strcpy(c->nome,"Pedro") ;
-    strcpy(c->email,"pedro@email.com.br");
-    put(&hashes, c->email, c, comparaChaves);
-    c = (Cliente *)malloc(sizeof(Cliente));
-    strcpy(c->nome,"Carla") ;
-    strcpy(c->email,"carla@gmail.com.br");
-    put(&hashes, c->email, c, comparaChaves);
-    showHashStruct(&hashes, printCliente);
     return 0;
 }

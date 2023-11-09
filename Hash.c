@@ -26,13 +26,17 @@ int hash(char *key) {
 }
 
 int hash2(char *key) {
-    int sum = 0;
-    // percorremos todos os caracteres da string passada
-    for (int i = 0; key[i]!=0;i++) {
-        //acumulamos os códigos ascii de cada letra com um peso
-        sum+=key[i]*(i+10);
+    int hashValue = 0;
+
+    for (int i = 0; key[i] != '\0'; i++) {
+        hashValue = (hashValue * 31) + key[i];
     }
-    return sum%MAX; //retorna o resto da divisão
+
+    if (hashValue < 0) {
+        hashValue = -hashValue;
+    }
+
+    return hashValue % (32*32);
 }
 
 int put(HashStruct *hashStruct, char *key, void *data, compare equal) {
