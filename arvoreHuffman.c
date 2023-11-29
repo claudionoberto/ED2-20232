@@ -138,69 +138,66 @@ void generateTable(Node *root, BinaryCode **table, char *path, int columns) {
 
 
 void printTable(BinaryCode **table) {
-    int i;
-    for (i = 0; i < TAM; i++) {
-        if (table[i]->code != NULL) {
+    for (int i = 0; i < TAM; i++) {
+        if (table[i]->code) {
             printf("Caractere: %c || Código Binário Correspondente: %s\n", table[i]->caractere, table[i]->code);
         }
     }
 }
 
+
 void writeTableToFile(FILE *compressedFile, BinaryCode **table) {
-    int i;
-    for (i = 0; i < TAM; i++) {
+    for (int i = 0; i < TAM; i++) {
         if (table[i]->code != NULL) {
             fprintf(compressedFile, "%c%s\n", table[i]->caractere, table[i]->code);
         }
     }
 }
 
-
 void writeCompressedData(FILE *compressedFile, FILE *originalFile, BinaryCode **table) {
     int c;
     char buffer[9] = {'\0'};
     int pos = 0;
-    
+
     while ((c = fgetc(originalFile)) != EOF) {
-        char *codigo = table[c]->code;
-        int i = 0;
-        while (codigo[i] != '\0') {
-            buffer[pos++] = codigo[i++];
+        const char *code = table[c]->code;
+        while (*code != '\0') {
+            buffer[pos++] = *code++;
             if (pos == 8) {
                 fprintf(compressedFile, "%ld", strtol(buffer, NULL, 2));
                 pos = 0;
             }
         }
     }
-    
+
     if (pos > 0) {
         fprintf(compressedFile, "%ld", strtol(buffer, NULL, 2));
     }
 }
-
 
 void readTableFromFile(FILE *compressedFile, BinaryCode **table) {
     char line[256];
     while (fgets(line, sizeof(line), compressedFile) != NULL) {
         char caractere;
         char *code = strtok(line, "\n");
-        sscanf(code, "%c%s", &caractere, code);
-        table[caractere]->code = strdup(code);
+        
+        if (sscanf(code, "%c%s", &caractere, code) == 2) {
+            table[(unsigned char)caractere]->code = strdup(code);
+        }
     }
 }
-
 
 void decompressData(FILE *compressedFile, FILE *uncompressedFile, Node *tree) {
     int bit;
     Node *current = tree;
-    
+
     while ((bit = fgetc(compressedFile)) != EOF) {
         if (bit == '0') {
             current = current->left;
         } else if (bit == '1') {
             current = current->right;
         }
-        
+
         if (current->left == NULL && current->right == NULL) {
             fprintf(uncompressedFile, "%c", current->caracter);
             current = tree;
@@ -210,32 +207,32 @@ void decompressData(FILE *compressedFile, FILE *uncompressedFile, Node *tree) {
 
 
 void compressFile(char *nameOriginalFile, char *nameCompressedFile, BinaryCode **table) {
-    FILE* originalFile = fopen(nameOriginalFile, "r");
-    FILE* CompressedFile = fopen(nameCompressedFile, "wb");
-    int bit, a;
-    
-    if (originalFile == NULL || CompressedFile == NULL) {
+    FILE *originalFile = fopen(nameOriginalFile, "r");
+    FILE *compressedFile = fopen(nameCompressedFile, "wb");
+    int character;
+
+    if (originalFile == NULL || compressedFile == NULL) {
         fprintf(stderr, "Erro ao abrir arquivos.\n");
         exit(EXIT_FAILURE);
     } else {
-        while ((a = fgetc(originalFile)) != EOF) {
-            fprintf(CompressedFile, "%s", table[a]->code);
+        while ((character = fgetc(originalFile)) != EOF) {
+            fprintf(compressedFile, "%s", table[(unsigned char)character]->code);
         }
-        
-        fclose(CompressedFile);
+
+        fclose(compressedFile);
         fclose(originalFile);
     }
 }
 
 void initTable(unsigned int tab[]) {
-    int i;
-    for (i = 0; i < TAM; i++)
+    for (int i = 0; i < TAM; i++) {
         tab[i] = 0;
+    }
 }
 
 void fillTable(FILE *file, unsigned int tab[]) {
     int c;
     while ((c = fgetc(file)) != EOF) {
-        tab[c]++;
+        tab[(unsigned char)c]++;
     }
 }
