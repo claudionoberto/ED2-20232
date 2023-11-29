@@ -3,6 +3,8 @@
 #include <string.h>
 #include "Hash.h"
 
+//ALUNOS: CLAUDIO NOBERTO E KHAWAN FELLIPE
+
 bool comparar(void* data1,void* data2) {
     if(strcmp (data1,data2) == 0) {
         return true;

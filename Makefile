@@ -66,8 +66,20 @@ tabelaHash:
 	@echo "=================================="
 	@echo "- Compilando"
 	gcc  DoublyLinkedList.h DoublyLinkedList.c Hash.h Hash.c HashMain.c -o Hash
-	@echo "- Torna o programa Hash executásvel"
+	@echo "- Torna o programa Hash executável"
 	chmod +x Hash
 	@echo "- Executando o Hash"
 	./Hash
+	@echo "=================================="
+
+Huffman:
+	@echo "=================================="
+	@echo "PROGRAMA ARVORE DE HUFFMAN"
+	@echo "=================================="
+	@echo "- Compilando"
+	gcc  arvoreHuffman.h arvoreHuffman.c HuffmanMain.c -o Huffman
+	@echo "- Torna o programa Huffman executável"
+	chmod +x Huffman
+	@echo "- Executando o programa Huffman"
+	./Huffman
 	@echo "=================================="
